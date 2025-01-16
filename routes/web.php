@@ -1,14 +1,10 @@
 <?php
 
-use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ParentsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware([AuthenticatedParentMiddleware::class])->group(function () {
+    Route::get('/dashboard', [ParentsController::class, 'dashboard'])->name('dashboard');
 });
 
-// PasswordController
-Route::controller(PasswordController::class)->middleware('auth')->group(function () {
-    Route::get('/newPassword', 'newPassword')->name('newPassword');
-    Route::post('/newPassword/save', 'newPasswordStore')->name('newPasswordStore');
-});
+require __DIR__.'/auth.php';
