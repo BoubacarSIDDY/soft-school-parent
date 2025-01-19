@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\IdentifiantParent;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Eleve;
@@ -20,9 +21,16 @@ class CheckPhoneMiddleware
         if (!$eleve) {
             return redirect()->back()->withErrors(['phone' => 'Numéro de téléphone non trouvé.']);
         }
-
-        if ($eleve->isConnected == 0) { // si isConnected == 0 cela veut dire que le parent n'a pas encore changé de mot de passe
-            return redirect()->route('change-password', ['phone' => $phone]);
+        // Vérifie si le numéro de téléphone existe dans la table `Identifiants_parents`
+        $parent = IdentifiantParent::where('phone', $phone)->first();
+        if (!$parent) {
+            if ($request->input('password') != $phone) {
+                return redirect()->back()->withErrors(['password' => 'Mot de passe incorrect.']);
+            }else{
+                // Si le numéro n'est pas enregistré, redirige vers "change-password"
+                session(['phone' => $phone]);
+                return redirect()->route('change-password');
+            }
         }
         return $next($request);
     }
