@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absence;
 use App\Models\Annee;
 use App\Models\Classe;
 use App\Models\Eleve;
@@ -48,14 +49,27 @@ class ElevesController extends Controller
      * Fonction qui renvoie les absences
      */
     public function absenceEleve(Request $request){
-        $annees = Inscription::getAnneesInscription($request->route('matricule'));
-        if ($request->query('annee_id') !== '*'){
-            // mettre la requete pour recuperer les donnees
+        $matricule = $request->post('matricule');
+        $annees = Inscription::getAnneesInscription($matricule);
+        $anneeChoisi = $request->query('annee_id');
+        $year = Annee::find($anneeChoisi);
+        $title = $year->ANNE;
+        $inscription = Inscription::where('IMATR',$matricule)
+            ->where('annee_id',$anneeChoisi)
+            ->first();
+        $absences = [];
+        if ($inscription) {
+            $absences = Absence::with('composition')
+                ->where('inscription_id',$inscription->id)
+                ->where('annee_id',$anneeChoisi)
+                ->get();
         }
         return view('partials.absence-eleve',
             [
                 'annees' => $annees,
-                'anneeChoisi' => $request->query('annee_id'),
+                'anneeChoisi' => $anneeChoisi,
+                'title' => $title,
+                'absences' => $absences,
             ]);
     }
 
@@ -94,10 +108,16 @@ class ElevesController extends Controller
                 $evaluationChoisi = $request->post('evaluation_id');
             }else{
                 // recuperation de la premiere evaluation
-                $evaluationChoisi = $evaluations->first()->id;
+                if ($evaluations->count() > 0){
+                    $evaluationChoisi = $evaluations->first()->id;
+                }else{
+                    $evaluationChoisi = '';
+                }
             }
             $eva = Evaluation::with('composition')->where('id', $evaluationChoisi)->first();
-            $title .= ' - ' . $eva->label.' '.$eva->composition->label;
+            if (!empty($eva)){
+                $title .= ' - ' . $eva->label.' '.$eva->composition->label;
+            }
             // recuperation des notes
             $notes = Note::whereHas('matiereClass', function($query) use ($class_id) {
                 $query->where('class_id', $class_id);

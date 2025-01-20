@@ -131,14 +131,16 @@
         // fonction qui filtre les absences
         function filtreAbsence(annee_id=null){
             var id = '{{$eleve->id}}';
-            var matricule = '{{$eleve->MATR}}';
-            var url = '/details-eleve/absence/'+id+'/'+matricule;
-            if(annee_id){ // si l'annee id est choisie
+            var url = '/details-eleve/absence/'+id;
+            if(annee_id){ // si l'annee id est choisie dans "absence-eleve.blade.php"
                 url += '?annee_id='+annee_id;
             }else{ // sinon on prends l'année de la derniere inscription
                 url += '?annee_id='+{{$inscription->annee_id}};
             }
-            var data = {inscription_id:{{$inscription->id}}};
+            var data = {
+                inscription_id:{{$inscription->id}},
+                matricule : {{$eleve->MATR}},
+            };
             getData(url,data);
         }
 

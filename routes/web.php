@@ -13,7 +13,7 @@ Route::controller(ParentsController::class)->middleware([AuthenticatedParentMidd
 Route::controller(ElevesController::class)->middleware([AuthenticatedParentMiddleware::class, VerifyParentOwner::class])->group(function () {
     Route::get('/details-eleve/{id}', 'detailsEleve')->name('details.eleve');
     Route::post('/details-eleve/info-eleve/{id}', 'infoEleve')->name('info.eleve');
-    Route::post('/details-eleve/absence/{id}/{matricule}', 'absenceEleve')->name('details.eleve.absence');
+    Route::post('/details-eleve/absence/{id}', 'absenceEleve')->name('details.eleve.absence');
     Route::post('/details-eleve/note/{id}', 'noteEleve')->name('details.eleve.note');
 });
 require __DIR__.'/auth.php';

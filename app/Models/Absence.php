@@ -6,28 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Absence extends Model
 {
-    protected $fillable = [
-        'inscription_id',
-        'date_absence',
-        'justificatif',
-        'type',
-        'Nb_heure',
-        'annee_id',
-        'classe_id',
-        'composition_id',
-        'motif'
-    ];
-
     // Relation avec l'élève
     public function eleve()
     {
         return $this->belongsTo(Eleve::class, 'eleve_id');
-    }
-
-    // Relation avec la classe
-    public function classe()
-    {
-        return $this->belongsTo(Classe::class, 'classe_id');
     }
 
     // Relation avec la composition

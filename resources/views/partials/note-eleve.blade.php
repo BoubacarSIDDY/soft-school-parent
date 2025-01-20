@@ -2,13 +2,13 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="row py-3 pb-0 px-4">
-                <div class="col-8 py-4">
+                <div class="col-6 py-4">
                     <h4 class="heading mb-0 fw-bold">
                         {{__('Liste des notes : ')}}
                         <span class="text-primary">{{$title}}</span>
                     </h4>
                 </div>
-                <div class="col-2 col-md-2">
+                <div class="col-3 col-md-3">
                     <label for=""><strong>Filtrer par année :</strong></label>
                     <select class="form-select form-select-sm annee" onchange="filtreNote()">
                         @foreach($annees as $key => $annee)
@@ -16,7 +16,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-2 col-md-2">
+                <div class="col-3 col-md-3">
                     <label for=""><strong>Filtrer par composition :</strong></label>
                     <select class="form-select form-select-sm normal-select composition" onchange="filtreNote()">
                         @foreach($evaluations as $evaluation)
