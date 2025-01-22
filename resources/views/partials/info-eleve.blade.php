@@ -93,7 +93,7 @@
                         <span class="fs-13">Classe</span>
                     </div>
                     <div class="col-6">
-                        <span class="fs-13 fw-semibold">{{$inscription->classe->CODC}}</span>
+                        <span class="fs-13 fw-semibold">{{!empty($inscription->classe) ? $inscription->classe->CODC : ''}}</span>
                     </div>
                 </div>
                 <div class="row py-2">

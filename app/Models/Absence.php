@@ -12,6 +12,11 @@ class Absence extends Model
         return $this->belongsTo(Eleve::class, 'eleve_id');
     }
 
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'classe_id');
+    }
+
     // Relation avec la composition
     public function composition()
     {

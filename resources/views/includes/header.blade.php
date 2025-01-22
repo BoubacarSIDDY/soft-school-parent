@@ -14,6 +14,7 @@
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="header-info2 d-flex align-items-center">
                                         <div class="header-media">
+                                            {{ Auth::user()->name.' '.Auth::user()->lastName }}
                                             <i class="fa fa-user text-primary"></i>
                                         </div>
                                     </div>

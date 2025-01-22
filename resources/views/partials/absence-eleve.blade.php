@@ -34,10 +34,11 @@
                                 <tr>
                                     <td>{{$absence->type}}</td>
                                     <td>{{format_date($absence->date_absence)}}</td>
-                                    <td>{{$absence->classe->CODC}}</td>
                                     <td>{{$absence->composition->label}}</td>
+                                    <td>{{!empty($absence->classe) ? $absence->classe->CODC : ''}}</td>
                                     <td>{{$absence->Nb_heure}}</td>
                                     <td>{{$absence->justificatif}}</td>
+                                    <td>{{$absence->motif}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

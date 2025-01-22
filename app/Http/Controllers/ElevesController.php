@@ -59,7 +59,7 @@ class ElevesController extends Controller
             ->first();
         $absences = [];
         if ($inscription) {
-            $absences = Absence::with('composition')
+            $absences = Absence::with(['composition','classe'])
                 ->where('inscription_id',$inscription->id)
                 ->where('annee_id',$anneeChoisi)
                 ->get();
